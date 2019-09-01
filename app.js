@@ -9,6 +9,7 @@ const app = express();
 
 // middleware
 app.use(bodyParser.urlencoded({extend: false}));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
