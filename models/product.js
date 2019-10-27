@@ -17,7 +17,7 @@ module.exports = class Product {
     return products;
   }
   
-  static productById(id, cb) {
+  static findById(id, cb) {
     const product = products.find(item => item.id == id);
     cb(product);
   }
