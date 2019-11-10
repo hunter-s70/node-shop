@@ -53,3 +53,10 @@ exports.getAdminProducts = (req, res, next) => {
     path: '/admin/products'
   });
 };
+
+exports.getDeleteProduct = (req, res, next) => {
+  const productId = req.params.productId;
+  Product.deleteProduct(productId, () => {
+    res.redirect('/admin/products');
+  });
+};

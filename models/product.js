@@ -1,3 +1,4 @@
+const Cart = require('../models/cart');
 const products = [];
 
 module.exports = class Product {
@@ -31,5 +32,15 @@ module.exports = class Product {
   static findById(id, cb) {
     const product = products.find(item => item.id == id);
     cb(product);
+  }
+  
+  static deleteProduct(id, cb) {
+    products.forEach((product, index) => {
+      if (product.id === id) {
+        Cart.deleteProduct(id, product.price);
+        products.splice(index, 1);
+        cb(product);
+      }
+    });
   }
 };

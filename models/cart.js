@@ -23,4 +23,12 @@ module.exports = class Cart {
     }
     cart.totalPrice = cart.totalPrice + +productPrice;
   }
+  
+  static deleteProduct(id, productPrice) {
+    const product = cart.products.find(item => item.id == id);
+    const productIndex = cart.products.findIndex(item => item.id == id);
+    const productQty = product.qty;
+    cart.totalPrice -= productQty * productPrice;
+    cart.products.splice(productIndex, 1);
+  }
 };
