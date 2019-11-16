@@ -27,6 +27,7 @@ module.exports = class Cart {
   static deleteProduct(id, productPrice) {
     const product = cart.products.find(item => item.id == id);
     const productIndex = cart.products.findIndex(item => item.id == id);
+    if (!product) return;
     const productQty = product.qty;
     cart.totalPrice -= productQty * productPrice;
     cart.products.splice(productIndex, 1);
