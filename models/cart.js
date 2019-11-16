@@ -31,4 +31,8 @@ module.exports = class Cart {
     cart.totalPrice -= productQty * productPrice;
     cart.products.splice(productIndex, 1);
   }
+  
+  static getCart(cb) {
+    return cb(cart);
+  }
 };
