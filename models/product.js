@@ -12,8 +12,8 @@ module.exports = class Product {
   }
   
   save() {
-    this.id = Math.random().toString();
-    products.push(this);
+    return db.execute('INSERT INTO products (title, imageUrl, description, price) VALUES [?, ?, ?, ?]',
+      [this.title, this.imageUrl, this.description, this.price]);
   }
   
   update() {
