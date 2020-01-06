@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js",
-    "debug": "node --inspect app.js"
+    "debug": "node debug server.js",
+    "debug:port": "node --debug server.js",
+    "debug:brk": "node --debug-brk server.js",
+    "debug:console": "node --inspect app.js"
   },
   "keywords": [
     "node"
