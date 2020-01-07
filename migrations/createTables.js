@@ -8,16 +8,19 @@ const connection = mysql.createConnection({
   password: process.env.DB_PASS
 });
 
-connection
+// create products table
+const products = connection
   .promise()
-  .query(`CREATE TABLE products
+  .query(`CREATE TABLE IF NOT EXISTS products
           (id INT(10) AUTO_INCREMENT PRIMARY KEY,
           title VARCHAR(255),
           price DOUBLE,
           description TEXT,
-          imageUrl VARCHAR(255))`)
-  .then((data) => {
-    console.log(data);
+          imageUrl VARCHAR(255))`);
+
+
+Promise.all([products])
+  .then(() => {
     connection.end();
   })
   .catch((err) => {
