@@ -22,11 +22,13 @@ exports.getEditProduct = (req, res, next) => {
   const productId = req.params.productId;
   const editMode = req.query.edit;
   if (!editMode) return redirect('/');
-  Product.findById(productId)
+  Product.findOne({
+    where: {id: productId}
+  })
     .then(product => {
       if (!product) return res.redirect('/');
       res.render('admin/edit-product', {
-        product: product,
+        product: product.dataValues,
         pageTitle: 'Edit Product',
         path: '/admin/edit-product',
         editing: editMode
@@ -37,7 +39,9 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.postEditProduct = (req, res, next) => {
   const productId = req.body.productId;
-  Product.findById(productId)
+  Product.findOne({
+    where: {id: productId}
+  })
     .then(product => {
       product.title = req.body.title;
       product.imageUrl = req.body.imageUrl;
@@ -66,7 +70,9 @@ exports.getAdminProducts = (req, res, next) => {
 
 exports.getDeleteProduct = (req, res, next) => {
   const productId = req.params.productId;
-  Product.findById(productId)
+  Product.findOne({
+    where: {id: productId}
+  })
     .then(product => {
       return product.destroy();
     })
