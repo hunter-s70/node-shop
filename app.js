@@ -40,7 +40,7 @@ app.use(ErrorsController.get404);
 Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
 User.hasMany(Product);
 
-Cart.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
+Cart.belongsTo(User);
 User.hasOne(Cart);
 Cart.belongsToMany(Product, {through: CartItem});
 Product.belongsToMany(Cart, {through: CartItem});
@@ -60,7 +60,9 @@ sequelize
     return user;
   })
   .then(user => {
-    console.log(user);
+    return user.createCart();
+  })
+  .then(cart => {
     app.listen(3000);
   })
   .catch(err => {
