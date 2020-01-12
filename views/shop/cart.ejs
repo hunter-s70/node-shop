@@ -8,8 +8,8 @@
         <ul>
             <% products.forEach(item => { %>
                 <li>
-                    <p><% item.productData.title %> (<% item.qty %>)</p>
-                    <a href="/delete-cart-item/<%= item.productData.id %>"
+                    <p><% item.title %> (<% item.cartItem.quantity %>)</p>
+                    <a href="/delete-cart-item/<%= item.id %>"
                        class="btn">Delete</a>
                 </li>
             <% }) %>
