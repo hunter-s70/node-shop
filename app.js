@@ -4,16 +4,10 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const ErrorsController = require('./controller/errors');
 
-const sequelize = require('./util/database');
-const User = require('./models/user');
-const Product = require('./models/product');
-const Cart = require('./models/cart');
-const CartItem = require('./models/cart-item');
-const Order = require('./models/order');
-const OrderItem = require('./models/order-item');
+const mongoConnect = require('./util/database');
 
-const adminRoutes = require('./routes/admin');
-const shopRoutes = require('./routes/shop');
+// const adminRoutes = require('./routes/admin');
+// const shopRoutes = require('./routes/shop');
 
 const app = express();
 
@@ -25,54 +19,20 @@ app.use(bodyParser.urlencoded({extend: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-  User.findOne({
-    where: {id: 1}
-  }).then(user => {
-    req.user = user;
-    next();
-  }).catch(err => console.log(err))
+  // User.findOne({
+  //   where: {id: 1}
+  // }).then(user => {
+  //   req.user = user;
+  //   next();
+  // }).catch(err => console.log(err))
 });
 
-app.use('/admin', adminRoutes);
-app.use(shopRoutes);
+// app.use('/admin', adminRoutes);
+// app.use(shopRoutes);
 
 app.use(ErrorsController.get404);
 
-// create Associations
-Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
-User.hasMany(Product);
-
-// cart relations
-Cart.belongsTo(User);
-User.hasOne(Cart);
-Cart.belongsToMany(Product, {through: CartItem});
-Product.belongsToMany(Cart, {through: CartItem});
-
-// orders relations
-User.hasMany(Order);
-Order.belongsTo(User);
-Order.belongsToMany(Product, {through: OrderItem});
-
-sequelize
-  // .sync({force: true})
-  .sync()
-  .then(result => {
-    return User.findOne({
-      where: {id: 1}
-    });
-  })
-  .then(user => {
-    if (!user) {
-      return User.create({name: 'Serg', email: 'test@test.com'})
-    }
-    return user;
-  })
-  .then(user => {
-    return user.createCart();
-  })
-  .then(cart => {
-    app.listen(3000);
-  })
-  .catch(err => {
-  console.log(err);
+mongoConnect((client) => {
+  console.log(client);
+  app.listen(3000);
 });

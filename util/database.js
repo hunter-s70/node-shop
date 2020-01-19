@@ -1,13 +1,15 @@
-const Sequelize = require('sequelize');
+const MongoClient = require('mongodb').MongoClient;
 
-// create the connection to database
-const sequelize = new Sequelize(
-  process.env.DB_NAME_SQLIZE,
-  process.env.DB_USER,
-  process.env.DB_PASS,
-  {
-    dialect: 'mysql',
-    host: process.env.DB_HOST
+// Connection URL no pass
+const url = 'mongodb://localhost:27017';
+
+const mongoConnect = callback => {
+  MongoClient.connect(url).then(client => {
+    console.log('Connected!');
+    callback(client);
+  }).catch(err => {
+    console.log(err);
   });
+};
 
-module.exports = sequelize;
+module.exports = mongoConnect;
