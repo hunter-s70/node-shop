@@ -13,12 +13,10 @@ exports.postProduct = (req, res, next) => {
   const imageUrl = req.body.imageUrl;
   const description = req.body.description;
   const price = req.body.price;
-  // elegant and magic creation of product!
-  // after adding associations we can create product for current user
-  // squelize automatically added userId, createdAt, updatedAt
-  req.user.createProduct({title, imageUrl, description, price})
+  const product = new Product({title, imageUrl, description, price});
+  product.save()
     .then(() => {
-      res.redirect('/admin/products');
+      // res.redirect('/admin/products');
     }).catch(err => console.log(err));
 };
 
