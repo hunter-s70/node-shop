@@ -26,13 +26,11 @@ exports.getProductsList = (req, res, next) => {
 
 exports.getProductById = (req, res, next) => {
   const productId = req.params.productId;
-  Product.findOne({
-    where: {id: productId}
-  })
+  Product.getProductById(productId)
     .then(product => {
       if (!product) return res.redirect('/');
       res.render('shop/product-details', {
-        product: product.dataValues,
+        product,
         pageTitle: 'Details',
         path: '/products'
       })
