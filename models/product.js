@@ -7,7 +7,7 @@ class Product {
     this.price = price;
     this.description = description;
     this.imageUrl = imageUrl;
-    this._id = id;
+    this._id = new mongo.ObjectId(id);
   }
   
   save() {
@@ -22,7 +22,7 @@ class Product {
   update() {
     const db = getDb();
     return db.collection('products')
-      .updateOne({_id: new mongo.ObjectId(this._id)}, {$set: this})
+      .updateOne({_id: this._id}, {$set: this})
       .then(results => {
         console.log(results);
       })
