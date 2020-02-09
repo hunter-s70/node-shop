@@ -7,11 +7,11 @@
 <main>
     <% if (products.length) { %>
         <ul class="cart__item-list">
-            <% products.forEach(item => { %>
+            <% products.forEach(product => { %>
                 <li class="cart__item">
-                    <p><%= item.title %></p>
-                    <p>Quantity: <%= item.cartItem.quantity %></p>
-                    <a href="/delete-cart-item/<%= item.id %>"
+                    <p><%= product.title %></p>
+                    <p>Quantity: <%= product.quantity %></p>
+                    <a href="/delete-cart-item/<%= product._id %>"
                        class="btn danger">Delete</a>
                 </li>
             <% }) %>

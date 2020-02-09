@@ -41,6 +41,26 @@ class User {
     }
   }
   
+  getCartProducts() {
+    const db = getDb();
+    const cartProducts = this.cart && this.cart.items && Array.isArray(this.cart.items) ? this.cart.items : [];
+    const cartProductIds = cartProducts.map(product => product.productId);
+    return db.collection('products')
+      .find({_id: {$in: cartProductIds}})
+      .toArray()
+      .then(products => {
+        return products.map(product => {
+          return {
+            ...product,
+            quantity: cartProducts.find(cartProduct => {
+              return  cartProduct.productId.toString() === product._id.toString();
+            }).quantity
+          }
+        });
+      })
+      .catch(err => console.log(err));
+  }
+  
   static findById(userId) {
     const db = getDb();
     return db.collection('users').find({_id: new mongo.ObjectId(userId)}).next()
