@@ -17,28 +17,39 @@ class User {
   }
   
   addToCart(product) {
-    if (this.cart && this.cart.items && Array.isArray(this.cart.items)) {
-      const db = getDb();
-      const productId = new mongo.ObjectId(product._id);
-      const updatedCartItems = [...this.cart.items];
-      const cartProductIndex = this.cart.items.findIndex(product => product.productId.toString() === productId.toString());
-      const isProductInCart = cartProductIndex >= 0;
-      const quantity = isProductInCart ? this.cart.items[cartProductIndex].quantity + 1 : 1;
-      if (isProductInCart) {
-        updatedCartItems[cartProductIndex].quantity = quantity;
-      } else {
-        updatedCartItems.push({productId, quantity});
-      }
-      return db.collection('users').updateOne(
-        {_id: new mongo.ObjectId(this._id)},
-        {$set: {cart: {items: updatedCartItems}}}
-      )
-      // delete from cart
-      // return db.collection('users').updateOne(
-      //   {_id: new mongo.ObjectId(this._id)},
-      //   {$pop: {'cart.items': -1}}
-      // )
+    const db = getDb();
+    const cartProducts = this.cart && this.cart.items && Array.isArray(this.cart.items) ? this.cart.items : [];
+    const productId = new mongo.ObjectId(product._id);
+    const updatedCartItems = [...cartProducts];
+    const cartProductIndex = cartProducts.findIndex(product => product.productId.toString() === productId.toString());
+    const isProductInCart = cartProductIndex >= 0;
+    const quantity = isProductInCart ? cartProducts[cartProductIndex].quantity + 1 : 1;
+    if (isProductInCart) {
+      updatedCartItems[cartProductIndex].quantity = quantity;
+    } else {
+      updatedCartItems.push({productId, quantity});
     }
+    return db.collection('users').updateOne(
+      {_id: new mongo.ObjectId(this._id)},
+      {$set: {cart: {items: updatedCartItems}}}
+    )
+    // delete from cart
+    // return db.collection('users').updateOne(
+    //   {_id: new mongo.ObjectId(this._id)},
+    //   {$pop: {'cart.items': -1}}
+    // )
+  }
+  
+  deleteFromCart(productId) {
+    const db = getDb();
+    const cartProducts = this.cart && this.cart.items && Array.isArray(this.cart.items) ? this.cart.items : [];
+    const updatedCartItems = cartProducts.filter(product => {
+      return product.productId.toString() !== productId.toString();
+    });
+    return db.collection('users').updateOne(
+      {_id: new mongo.ObjectId(this._id)},
+      {$set: {cart: {items: updatedCartItems}}}
+    )
   }
   
   getCartProducts() {

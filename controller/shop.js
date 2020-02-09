@@ -53,7 +53,6 @@ exports.postCart = (req, res, next) => {
 
 exports.getCart = (req, res, next) => {
   req.user.getCartProducts().then(products => {
-    console.log(products);
     res.render('shop/cart', {
       products: products,
       pageTitle: 'Cart',
@@ -64,14 +63,7 @@ exports.getCart = (req, res, next) => {
 
 exports.getCartItemDelete = (req, res, next) => {
   const productId = req.params.productId;
-  req.user.getCart()
-    .then(cart => {
-      return cart.getProducts({where: {id: productId}});
-    })
-    .then(products => {
-      const product = products[0];
-      return product.cartItem.destroy();
-    })
+  req.user.deleteFromCart(productId)
     .then(() => {
       res.redirect('/cart');
     })
