@@ -36,6 +36,6 @@ app.use(shopRoutes);
 
 app.use(ErrorsController.get404);
 
-mongoose.connect(`${process.env.DB_URL_MONGO}/${process.env.DB_NAME_MONGO}`).then(() => {
+mongoose.connect(`${process.env.DB_URL_MONGOOSE}/${process.env.DB_NAME_MONGOOSE}`).then(() => {
   app.listen(3000);
 }).catch(err => console.log(err));
