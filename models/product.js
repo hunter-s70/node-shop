@@ -20,6 +20,8 @@ const productsSchema = new Schema({
   }
 });
 
+module.exports = mongoose.model('Product', productsSchema);
+
 // const mongo = require('mongodb');
 // const getDb = require('../util/database').getDb;
 //
