@@ -75,7 +75,7 @@ exports.getAdminProducts = (req, res, next) => {
 
 exports.getDeleteProduct = (req, res, next) => {
   const productId = req.params.productId;
-  Product.deleteById(productId)
+  Product.findOneAndRemove(productId)
     .then(() => {
       res.redirect('/admin/products');
     })
