@@ -26,7 +26,7 @@ exports.getProductsList = (req, res, next) => {
 
 exports.getProductById = (req, res, next) => {
   const productId = req.params.productId;
-  Product.getProductById(productId)
+  Product.findById(productId)
     .then(product => {
       if (!product) return res.redirect('/');
       res.render('shop/product-details', {
@@ -40,7 +40,7 @@ exports.getProductById = (req, res, next) => {
 
 exports.postCart = (req, res, next) => {
   const productId = req.body.productId;
-  Product.getProductById(productId)
+  Product.findById(productId)
     .then(product => {
       if (!product) return res.redirect('/');
       return req.user.addToCart(product);
