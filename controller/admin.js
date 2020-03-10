@@ -1,4 +1,3 @@
-const mongo = require('mongodb');
 const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {
@@ -56,7 +55,7 @@ exports.postEditProduct = (req, res, next) => {
 
 
 exports.getAdminProducts = (req, res, next) => {
-  Product.getAllProducts()
+  Product.find()
     .then(products => {
       res.render('admin/products', {
         prods: products,
