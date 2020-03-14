@@ -63,6 +63,10 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.getAdminProducts = (req, res, next) => {
   Product.find()
+    // select title and price and exclude _id field
+    // .select('title price -_id')
+    // fill related userId with only name field. If skip the second argument, will add all the user information
+    // .populate('userId', 'name')
     .then(products => {
       res.render('admin/products', {
         prods: products,
