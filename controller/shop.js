@@ -52,13 +52,18 @@ exports.postCart = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
-  req.user.getCartProducts().then(products => {
-    res.render('shop/cart', {
-      products: products,
-      pageTitle: 'Cart',
-      path: '/cart',
-    });
-  }).catch(err => console.log(err));
+  req.user
+    .populate('cart.items.productId')
+    .execPopulate()
+    .then(user => {
+      const products = user.cart.items;
+      res.render('shop/cart', {
+        products: products,
+        pageTitle: 'Cart',
+        path: '/cart',
+      });
+    })
+    .catch(err => console.log(err));
 };
 
 exports.getCartItemDelete = (req, res, next) => {

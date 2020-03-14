@@ -9,9 +9,9 @@
         <ul class="cart__item-list">
             <% products.forEach(product => { %>
                 <li class="cart__item">
-                    <p><%= product.title %></p>
+                    <p><%= product.productId.title %></p>
                     <p>Quantity: <%= product.quantity %></p>
-                    <a href="/delete-cart-item/<%= product._id %>"
+                    <a href="/delete-cart-item/<%= product.productId._id %>"
                        class="btn danger">Delete</a>
                 </li>
             <% }) %>
