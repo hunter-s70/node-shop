@@ -24,7 +24,7 @@ const userSchema = new Schema({
 
 userSchema.methods.addToCart = function (product) {
   const cartProducts = this.cart && this.cart.items && Array.isArray(this.cart.items) ? this.cart.items : [];
-  const productId = new mongo.ObjectId(product._id);
+  const productId = product._id;
   const updatedCartItems = [...cartProducts];
   const cartProductIndex = cartProducts.findIndex(product => product.productId.toString() === productId.toString());
   const isProductInCart = cartProductIndex >= 0;
