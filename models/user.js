@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Order = require('./order');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -17,7 +18,10 @@ const userSchema = new Schema({
         ref: 'Product',
         required: true
       },
-      quantity: {type: Number, required: true}
+      quantity: {
+        type: Number,
+        required: true
+      }
     }]
   }
 });
@@ -45,6 +49,20 @@ userSchema.methods.deleteFromCart = function (productId) {
   });
   this.cart = {items: updatedCartItems};
   return this.save();
+};
+
+userSchema.methods.addOrder = function () {
+  const cartProducts = this.cart && this.cart.items && Array.isArray(this.cart.items) ? this.cart.items : [];
+  const order = new Order({
+    items: cartProducts,
+    userId: this._id
+  });
+  return order.save()
+    .then(() => {
+      this.cart = {items: []};
+      this.save();
+    })
+    .catch(err => console.log(err));
 };
 
 module.exports = mongoose.model('User', userSchema);
