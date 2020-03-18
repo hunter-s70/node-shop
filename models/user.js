@@ -52,12 +52,16 @@ userSchema.methods.deleteFromCart = function (productId) {
 };
 
 userSchema.methods.addOrder = function () {
-  const cartProducts = this.cart && this.cart.items && Array.isArray(this.cart.items) ? this.cart.items : [];
-  const order = new Order({
-    items: cartProducts,
-    userId: this._id
-  });
-  return order.save()
+  return this.populate('cart.items.productId')
+    .execPopulate()
+    .then((data) => {
+      const cartProducts = data.cart && data.cart.items && Array.isArray(data.cart.items) ? data.cart.items : [];
+      const order = new Order({
+        items: cartProducts,
+        userId: this._id
+      });
+      return order.save();
+    })
     .then(() => {
       this.cart = {items: []};
       this.save();
