@@ -1,4 +1,5 @@
 const Product = require('../models/product');
+const Order = require('../models/order');
 
 exports.getIndex = (req, res, next) => {
   Product.find()
@@ -83,8 +84,9 @@ exports.getCheckout = (req, res, next) => {
 };
 
 exports.getOrdersList = (req, res, next) => {
-  req.user.getOrders()
+  Order.find({userId: req.user._id})
     .then(orders => {
+      console.log(orders);
       res.render('shop/orders', {
         orders,
         pageTitle: 'Orders list',
