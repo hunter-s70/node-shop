@@ -63,10 +63,14 @@ userSchema.methods.addOrder = function () {
       return order.save();
     })
     .then(() => {
-      this.cart = {items: []};
-      this.save();
+      return this.clearCart();
     })
     .catch(err => console.log(err));
+};
+
+userSchema.methods.clearCart = function () {
+  this.cart = {items: []};
+  this.save();
 };
 
 module.exports = mongoose.model('User', userSchema);
