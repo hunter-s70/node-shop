@@ -17,8 +17,8 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 // middleware
-app.use(bodyParser.urlencoded({extend: false}));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({extend: false})); // allows to get data from `req.body.email`
+app.use(express.static(path.join(__dirname, 'public'))); // set static folder
 
 app.use((req, res, next) => {
   User.findById('5e69551ae411fd1da470ca36').then(user => {
