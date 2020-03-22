@@ -2,6 +2,7 @@ const dotenv = require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const ErrorsController = require('./controller/errors');
 const mongoose = require('mongoose');
 
@@ -17,6 +18,7 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 // middleware
+app.use(cookieParser()); // allows to get data from `req.cookie.email`
 app.use(bodyParser.urlencoded({extend: false})); // allows to get data from `req.body.email`
 app.use(express.static(path.join(__dirname, 'public'))); // set static folder
 
