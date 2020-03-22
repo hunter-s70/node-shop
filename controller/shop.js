@@ -86,7 +86,6 @@ exports.getCheckout = (req, res, next) => {
 exports.getOrdersList = (req, res, next) => {
   Order.find({userId: req.user._id})
     .then(orders => {
-      console.log(orders);
       res.render('shop/orders', {
         orders,
         pageTitle: 'Orders list',
