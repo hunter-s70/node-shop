@@ -3,8 +3,11 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
 const ErrorsController = require('./controller/errors');
 const mongoose = require('mongoose');
+const MongoDBStore = require('connect-mongodb-session')(session);
+const MONGO_URI = `${process.env.DB_URL_MONGOOSE}/${process.env.DB_NAME_MONGOOSE}`;
 
 const User = require('./models/user');
 
@@ -13,6 +16,10 @@ const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
 const app = express();
+const store = new MongoDBStore({
+  uri: MONGO_URI,
+  collections: 'sessions'
+});
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -21,6 +28,14 @@ app.set('views', 'views');
 app.use(cookieParser()); // allows to get data from `req.cookie.email`
 app.use(bodyParser.urlencoded({extend: false})); // allows to get data from `req.body.email`
 app.use(express.static(path.join(__dirname, 'public'))); // set static folder
+app.use(
+  session({
+    secret: 'my secret',
+    resave: false,
+    saveUninitialized: false,
+    store: store
+  })
+);
 
 app.use((req, res, next) => {
   User.findById('5e69551ae411fd1da470ca36').then(user => {
@@ -35,7 +50,7 @@ app.use(authRoutes);
 
 app.use(ErrorsController.get404);
 
-mongoose.connect(`${process.env.DB_URL_MONGOOSE}/${process.env.DB_NAME_MONGOOSE}`).then(() => {
+mongoose.connect(MONGO_URI).then(() => {
   User.findOne().then(user => {
     if (!user) {
       const user = new User({
