@@ -6,6 +6,7 @@ exports.getIndex = (req, res, next) => {
     .then(products => {
       res.render('shop/index', {
         prods: products,
+        isLoggedIn: req.session.isLoggedIn,
         pageTitle: 'Shop',
         path: '/',
       });
@@ -18,6 +19,7 @@ exports.getProductsList = (req, res, next) => {
     .then(products => {
       res.render('shop/product-list', {
         prods: products,
+        isLoggedIn: req.session.isLoggedIn,
         pageTitle: 'Shop',
         path: '/products'
       });
@@ -32,6 +34,7 @@ exports.getProductById = (req, res, next) => {
       if (!product) return res.redirect('/');
       res.render('shop/product-details', {
         product,
+        isLoggedIn: req.session.isLoggedIn,
         pageTitle: 'Details',
         path: '/products'
       })
@@ -60,6 +63,7 @@ exports.getCart = (req, res, next) => {
       const products = user.cart.items;
       res.render('shop/cart', {
         products: products,
+        isLoggedIn: req.session.isLoggedIn,
         pageTitle: 'Cart',
         path: '/cart',
       });
@@ -78,6 +82,7 @@ exports.getCartItemDelete = (req, res, next) => {
 
 exports.getCheckout = (req, res, next) => {
   res.render('shop/checkout', {
+    isLoggedIn: req.session.isLoggedIn,
     pageTitle: 'Checkout',
     path: '/checkout',
   });
@@ -88,6 +93,7 @@ exports.getOrdersList = (req, res, next) => {
     .then(orders => {
       res.render('shop/orders', {
         orders,
+        isLoggedIn: req.session.isLoggedIn,
         pageTitle: 'Orders list',
         path: '/orders',
       });
