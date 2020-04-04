@@ -5,7 +5,11 @@ const router = express.Router();
 
 router.get('/login', AuthController.getLoginPage);
 
+router.get('/signup', AuthController.getSignup);
+
 router.post('/login', AuthController.postLogin);
+
+router.post('/signup', AuthController.postSignup);
 
 router.post('/logout', AuthController.postLogout);
 

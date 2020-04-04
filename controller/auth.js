@@ -10,6 +10,14 @@ exports.getLoginPage = (req, res, next) => {
   });
 };
 
+exports.getSignup = (req, res, next) => {
+  res.render('auth/signup', {
+    path: '/signup',
+    pageTitle: 'Signup',
+    isLoggedIn: req.session.isLoggedIn,
+  });
+};
+
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const pass = req.body.pass;
@@ -24,6 +32,8 @@ exports.postLogin = (req, res, next) => {
     })
     .catch(err => console.log(err));
 };
+
+exports.postSignup = (req, res, next) => {};
 
 exports.postLogout = (req, res, next) => {
   req.session.destroy((err) => {
