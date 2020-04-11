@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const ErrorsController = require('./controller/errors');
+
 const mongoose = require('mongoose');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const MONGO_URI = `${process.env.DB_URL_MONGOOSE}/${process.env.DB_NAME_MONGOOSE}`;

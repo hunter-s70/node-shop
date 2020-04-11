@@ -1,5 +1,6 @@
 const express = require('express');
 const ShopController = require('../controller/shop');
+const isAuth = require('../middleware/is-auth');
 
 const router = express.Router();
 
@@ -9,16 +10,16 @@ router.get('/products', ShopController.getProductsList);
 
 router.get('/products/:productId', ShopController.getProductById);
 
-router.get('/orders', ShopController.getOrdersList);
+router.get('/orders', isAuth, ShopController.getOrdersList);
 
-router.post('/order-create', ShopController.postOrder);
+router.post('/order-create', isAuth, ShopController.postOrder);
 
-router.get('/cart', ShopController.getCart);
+router.get('/cart', isAuth, ShopController.getCart);
 
-router.get('/delete-cart-item/:productId', ShopController.getCartItemDelete);
+router.get('/delete-cart-item/:productId', isAuth, ShopController.getCartItemDelete);
 
-router.post('/cart', ShopController.postCart);
+router.post('/cart', isAuth, ShopController.postCart);
 
-router.get('/checkout', ShopController.getCheckout);
+router.get('/checkout', isAuth, ShopController.getCheckout);
 
 module.exports = router;
