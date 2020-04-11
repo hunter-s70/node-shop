@@ -2,10 +2,7 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 
 exports.getLoginPage = (req, res, next) => {
-  console.log(req.session);
-  console.log(req.session.isLoggedIn);
   res.render('auth/login', {
-    isLoggedIn: req.session.isLoggedIn,
     pageTitle: 'Login page',
     path: '/login'
   });
@@ -14,8 +11,7 @@ exports.getLoginPage = (req, res, next) => {
 exports.getSignup = (req, res, next) => {
   res.render('auth/signup', {
     path: '/signup',
-    pageTitle: 'Signup',
-    isLoggedIn: req.session.isLoggedIn,
+    pageTitle: 'Signup'
   });
 };
 

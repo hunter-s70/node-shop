@@ -1,5 +1,6 @@
 const dotenv = require('dotenv').config();
 const express = require('express');
+const csrf = require('csurf');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -22,6 +23,8 @@ const store = new MongoDBStore({
   collections: 'sessions'
 });
 
+const csrfProctection = csrf();
+
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
@@ -37,6 +40,7 @@ app.use(
     store: store
   })
 );
+app.use(csrfProctection);
 
 app.use((req, res, next) => {
   if (!req.session.user) return next();
@@ -44,6 +48,12 @@ app.use((req, res, next) => {
     req.user = user;
     next();
   }).catch(err => console.log(err));
+});
+
+app.use((req, res, next) => {
+  res.locals.isLoggedIn = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken();
+  next();
 });
 
 app.use('/admin', adminRoutes);
