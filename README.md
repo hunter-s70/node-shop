@@ -22,5 +22,5 @@ npm start
 
 * master - mongoose.js
 * mongo-app - direct MongoDB requests
-* siquilizer-approach - SQL + sequelize.js
-* sql-db - direct SQL requests
+* sequelize-app - SQL + sequelize.js
+* sql-app - direct SQL requests
